@@ -19,6 +19,9 @@ const startApp = () => {
     const StandardApp = require('../components/app/StandardApp');
 
     const {pages, pluginsDef, initialState, storeOpts, appEpics = {}} = require('./appConfig');
+    const trovaLegenda = require('../epics/ARP_legendaEpics').trovaLegenda;
+    const conLegendaAppEpics = {...appEpics, trovaLegenda};
+    console.log(conLegendaAppEpics);
 
     const StandardRouter = connect((state) => ({
         locale: state.locale || {},
@@ -27,8 +30,9 @@ const startApp = () => {
 
     const appStore = require('../stores/StandardStore').bind(null, initialState, {
         maptype: require('../reducers/maptype'),
-        maps: require('../reducers/maps')
-    }, appEpics);
+        maps: require('../reducers/maps'),
+        ARP_legenda: require('../reducers/ARP_legendaReducer')
+    }, conLegendaAppEpics);
 
     const initialActions = [
         () => loadMaps(ConfigUtils.getDefaults().geoStoreUrl, ConfigUtils.getDefaults().initialMapFilter || "*"),
@@ -37,7 +41,7 @@ const startApp = () => {
 
     const appConfig = {
         storeOpts,
-        appEpics,
+        conLegendaAppEpics,
         appStore,
         pluginsDef,
         initialActions,

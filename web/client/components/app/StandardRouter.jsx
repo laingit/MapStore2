@@ -49,20 +49,22 @@ class StandardRouter extends React.Component {
     renderPages = () => {
         return this.props.pages.map((page, i) => {
             const pageConfig = page.pageConfig || {};
+
             const Component = connect(() => ({
                 plugins: this.props.plugins,
                 ...pageConfig
             }))(page.component);
+
             return <Route key={(page.name || page.path) + i} exact path={page.path} component={Component}/>;
         });
     };
 
     render() {
+        const {className, locale} = this.props;
         return (
-
-            <div className={this.props.className}>
+            <div className={className}>
                 <Theme {...this.props.themeCfg}/>
-                <Localized messages={this.props.locale.messages} locale={this.props.locale.current} loadingError={this.props.locale.localeError}>
+                <Localized messages={locale.messages} locale={locale.current} loadingError={locale.localeError}>
                     <ConnectedRouter history={history}>
                         <div>
                             {this.renderPages()}
