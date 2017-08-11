@@ -40,7 +40,7 @@ function setArpLegendaConst() {
     };
 }
 
-function getArpLegenda(azione) {
+function getArpCodiciLegenda(azione) {
     return (dispatch) => {
         console.log(azione.map.present.bbox);
         const bboxGauss = bboxToGauss(azione.map.present.bbox);
@@ -51,11 +51,10 @@ function getArpLegenda(azione) {
         const rxMax = Number((xMax).toFixed(0));
         const ryMax = Number((yMax).toFixed(0));
 
-        const url = `/api/posts?xMin=${rxMin}&yMin=${ryMin}&xMax=${rxMax}&yMax=${ryMax}`;
+        const url = `/api/liv_due_mappa?xMin=${rxMin}&yMin=${ryMin}&xMax=${rxMax}&yMax=${ryMax}`;
 
         console.log("getArpLegenda:");
         console.log(url);
-        // const url = "/api/posts?xMin=1500001&yMin=4290001&xMax=1600001&yMax=4600001";
         return axios.get(url).then(response => {
             if (typeof response.data === 'object') {
                 dispatch(setArpLegenda(response.data));
@@ -72,8 +71,39 @@ function getArpLegenda(azione) {
     };
 }
 
+
+function getArpLegenda(azione) {
+    return (dispatch) => {
+        console.log(azione.map.present.bbox);
+        const bboxGauss = bboxToGauss(azione.map.present.bbox);
+
+        const {xMin, yMin, xMax, yMax} = bboxGauss;
+        const rxMin = Number((xMin).toFixed(0));
+        const ryMin = Number((yMin).toFixed(0));
+        const rxMax = Number((xMax).toFixed(0));
+        const ryMax = Number((yMax).toFixed(0));
+
+        const url = `/api/liv_due_mappa?xMin=${rxMin}&yMin=${ryMin}&xMax=${rxMax}&yMax=${ryMax}`;
+
+        console.log("getArpLegenda:");
+        console.log(url);
+        return axios.get(url).then(response => {
+            if (typeof response.data === 'object') {
+                dispatch(setArpLegenda(response.data));
+            } else {
+                try {
+                    JSON.parse(response.data);
+                } catch (e) {
+                    dispatch(setArpLegenda('Parse error: ' + e.message));
+                }
+            }
+        }).catch((e) => {
+            dispatch(setArpLegenda(e));
+        });
+    };
+}
 /**
  *
  * @name actions.maptype
  */
-module.exports = {ARP_LEGENDA, getArpLegenda, setArpLegendaConst};
+module.exports = {ARP_LEGENDA, getArpLegenda, setArpLegendaConst, getArpCodiciLegenda};
