@@ -60,5 +60,8 @@ function resetControls(skip = []) {
  * control property.
  * @name actions.controls
  */
-module.exports = {TOGGLE_CONTROL, SET_CONTROL_PROPERTY, RESET_CONTROLS,
-    toggleControl, setControlProperty, resetControls};
+module.exports = {
+    TOGGLE_CONTROL, toggleControl,
+    SET_CONTROL_PROPERTY, setControlProperty,
+    RESET_CONTROLS, resetControls
+};

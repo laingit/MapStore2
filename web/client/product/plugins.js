@@ -74,7 +74,8 @@ module.exports = {
         CookiePlugin: require('../plugins/Cookie'),
         NotificationsPlugin: require('../plugins/Notifications'),
         FeatureEditorPlugin: require('../plugins/FeatureEditor'),
-        AutoMapUpdatePlugin: require('../plugins/AutoMapUpdate')
+        AutoMapUpdatePlugin: require('../plugins/AutoMapUpdate'),
+        ARP_legendaPlugin: require('../plugins/ARP_legenda')
 
     },
     requires: {

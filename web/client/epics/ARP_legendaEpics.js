@@ -14,7 +14,7 @@ const {
  * @param  {object} store   the store middleware API from redux `createMiddleware`
  * @return {external:Observable}  the stream of the actions to emit. (`changeMapType`)
  */
-const trovaCodiciLegenda = (action$, store) =>
+const trovaCodiciLegendaEpics = (action$, store) =>
     action$.ofType(CHANGE_MAP_VIEW)
         .map(action => {
             return getArpLegendaPartial(store.getState(), action);
@@ -28,7 +28,7 @@ const trovaCodiciLegenda = (action$, store) =>
  * @param  {object} store   the store middleware API from redux `createMiddleware`
  * @return {external:Observable}  the stream of the actions to emit. (`changeMapType`)
  */
-const getLegenda = (action$, store) =>
+const getLegendaEpics = (action$, store) =>
     action$.ofType(MAP_INFO_LOADED)
         .map(action => {
             return getArpLegendaFullDescription(store.getState(), action);
@@ -41,6 +41,6 @@ const getLegenda = (action$, store) =>
  * @type {Object}
  */
 module.exports = {
-    getLegenda,
-    trovaCodiciLegenda
+    getLegendaEpics,
+    trovaCodiciLegendaEpics
 };
