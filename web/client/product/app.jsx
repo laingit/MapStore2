@@ -19,19 +19,20 @@ const startApp = () => {
     const StandardApp = require('../components/app/StandardApp');
 
     const {pages, pluginsDef, initialState, storeOpts, appEpics = {}} = require('./appConfig');
-    const trovaLegenda = require('../epics/ARP_legendaEpics').trovaLegenda;
-    const conLegendaAppEpics = {...appEpics, trovaLegenda};
-    console.log(conLegendaAppEpics);
+    const {trovaCodiciLegenda, getLegenda} = require('../epics/ARP_legendaEpics');
+    const conLegendaAppEpics = {...appEpics, trovaCodiciLegenda, getLegenda};
 
     const StandardRouter = connect((state) => ({
         locale: state.locale || {},
         pages
     }))(require('../components/app/StandardRouter'));
 
+    const aprLegendaReducer = require('../reducers/ARP_legendaReducer');
+    console.log(aprLegendaReducer);
     const appStore = require('../stores/StandardStore').bind(null, initialState, {
         maptype: require('../reducers/maptype'),
         maps: require('../reducers/maps'),
-        ARP_legenda: require('../reducers/ARP_legendaReducer')
+        ARP_legenda: aprLegendaReducer
     }, conLegendaAppEpics);
 
     const initialActions = [

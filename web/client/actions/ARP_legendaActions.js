@@ -1,6 +1,9 @@
 var axios = require('../libs/ajax');
-const ARP_LEGENDA = 'ARP_LEGENDA';
 const Proj4js = require('proj4');
+
+const ARP_LEGENDA_DOMAIN = 'ARP_LEGENDA_DOMAIN';
+const ARP_LEGENDA_PARTIAL = 'ARP_LEGENDA_PARTIAL';
+const ARP_LEGENDA_FULL_DESCRIPTION = 'ARP_LEGENDA_FULL_DESCRIPTION';
 
 
 function bboxToGauss(bbox) {
@@ -26,24 +29,52 @@ function bboxToGauss(bbox) {
  * @param  {string} arpLegenda
  * @return {action}
  */
-function setArpLegenda(data) {
+function setArpLegendaFullDescriptionAC(data) {
     return {
-        type: ARP_LEGENDA,
-        ARP_legenda: data
+        type: ARP_LEGENDA_FULL_DESCRIPTION,
+        ARP_legenda_full: data
     };
 }
 
-function setArpLegendaConst() {
+
+function setArpLegendaPartialAC(data) {
     return {
-        type: ARP_LEGENDA,
-        ARP_legenda: "costante"
+        type: ARP_LEGENDA_PARTIAL,
+        ARP_legenda_partial: data
     };
 }
 
-function getArpCodiciLegenda(azione) {
+
+function getArpLegendaFullDescription(state, action) {
     return (dispatch) => {
-        console.log(azione.map.present.bbox);
-        const bboxGauss = bboxToGauss(azione.map.present.bbox);
+        const url = `/api/liv_due`;
+        console.log("getArpLegendaFullDescription: state action");
+        console.log(state);
+        console.log(action);
+
+        return axios.get(url).then(response => {
+            if (typeof response.data === 'object') {
+                console.log("getArpLegendaFullDescription:");
+                console.log(response);
+                dispatch(setArpLegendaFullDescriptionAC(response.data.data));
+            } else {
+                try {
+                    JSON.parse(response.data);
+                } catch (e) {
+                    dispatch(setArpLegendaFullDescriptionAC('Parse error: ' + e.message));
+                }
+            }
+        }).catch((e) => {
+            dispatch(setArpLegendaFullDescriptionAC(e));
+        });
+    };
+}
+
+
+function getArpLegendaPartial(state, action) {
+    return (dispatch) => {
+        // const bboxGauss = bboxToGauss(action.map.present.bbox);
+        const bboxGauss = bboxToGauss(action.bbox);
 
         const {xMin, yMin, xMax, yMax} = bboxGauss;
         const rxMin = Number((xMin).toFixed(0));
@@ -53,57 +84,34 @@ function getArpCodiciLegenda(azione) {
 
         const url = `/api/liv_due_mappa?xMin=${rxMin}&yMin=${ryMin}&xMax=${rxMax}&yMax=${ryMax}`;
 
-        console.log("getArpLegenda:");
-        console.log(url);
+        console.log("getArpLegendaPartial: state action");
+        console.log(state);
+        console.log(action);
         return axios.get(url).then(response => {
             if (typeof response.data === 'object') {
-                dispatch(setArpLegenda(response.data));
+                dispatch(setArpLegendaPartialAC(response.data.data));
             } else {
                 try {
                     JSON.parse(response.data);
                 } catch (e) {
-                    dispatch(setArpLegenda('Parse error: ' + e.message));
+                    dispatch(setArpLegendaPartialAC('Parse error: ' + e.message));
                 }
             }
         }).catch((e) => {
-            dispatch(setArpLegenda(e));
+            dispatch(setArpLegendaPartialAC(e));
         });
     };
 }
 
 
-function getArpLegenda(azione) {
-    return (dispatch) => {
-        console.log(azione.map.present.bbox);
-        const bboxGauss = bboxToGauss(azione.map.present.bbox);
-
-        const {xMin, yMin, xMax, yMax} = bboxGauss;
-        const rxMin = Number((xMin).toFixed(0));
-        const ryMin = Number((yMin).toFixed(0));
-        const rxMax = Number((xMax).toFixed(0));
-        const ryMax = Number((yMax).toFixed(0));
-
-        const url = `/api/liv_due_mappa?xMin=${rxMin}&yMin=${ryMin}&xMax=${rxMax}&yMax=${ryMax}`;
-
-        console.log("getArpLegenda:");
-        console.log(url);
-        return axios.get(url).then(response => {
-            if (typeof response.data === 'object') {
-                dispatch(setArpLegenda(response.data));
-            } else {
-                try {
-                    JSON.parse(response.data);
-                } catch (e) {
-                    dispatch(setArpLegenda('Parse error: ' + e.message));
-                }
-            }
-        }).catch((e) => {
-            dispatch(setArpLegenda(e));
-        });
-    };
-}
 /**
  *
  * @name actions.maptype
  */
-module.exports = {ARP_LEGENDA, getArpLegenda, setArpLegendaConst, getArpCodiciLegenda};
+module.exports = {
+    getArpLegendaFullDescription,
+    getArpLegendaPartial,
+    ARP_LEGENDA_DOMAIN,
+    ARP_LEGENDA_PARTIAL,
+    ARP_LEGENDA_FULL_DESCRIPTION
+};

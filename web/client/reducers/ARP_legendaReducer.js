@@ -1,4 +1,9 @@
-var {ARP_LEGENDA} = require('../actions/ARP_legenda');
+const assign = require('object-assign');
+
+var {ARP_LEGENDA_DOMAIN,
+     ARP_LEGENDA_FULL_DESCRIPTION,
+     ARP_LEGENDA_PARTIAL} = require('../actions/ARP_legendaActions');
+
 
 /**
  *
@@ -11,13 +16,30 @@ var {ARP_LEGENDA} = require('../actions/ARP_legenda');
  *  mapType: "leaflet"
  * }
  */
-function aprLegenda(state = {ARP_legenda: "prova"}, action) {
+function aprLegendaReducer(state = {
+    ARP_legenda_domain: [],
+    ARP_legenda_full: [],
+    ARP_legenda_partial: []
+}, action) {
     switch (action.type) {
-    case ARP_LEGENDA:
-        return action.ARP_legenda;
+    case ARP_LEGENDA_DOMAIN: {
+        return assign({}, state, {
+            ARP_legenda_domain: action.ARP_legenda_domain
+        });
+    }
+    case ARP_LEGENDA_FULL_DESCRIPTION: {
+        return assign({}, state, {
+            ARP_legenda_full: action.ARP_legenda_full
+        });
+    }
+    case ARP_LEGENDA_PARTIAL: {
+        return assign({}, state, {
+            ARP_legenda_partial: action.ARP_legenda_partial
+        });
+    }
     default:
         return state;
     }
 }
 
-module.exports = aprLegenda;
+module.exports = aprLegendaReducer;
