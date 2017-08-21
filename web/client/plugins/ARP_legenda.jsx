@@ -3,8 +3,10 @@ const React = require('react');
 const {connect} = require('react-redux');
 
 
-const {getLegendaEpics,
-    trovaCodiciLegendaEpics} = require('../epics/ARP_legendaEpics');
+const {
+    getLegendaEpics,
+    trovaCodiciLegendaEpics
+} = require('../epics/ARP_legendaEpics');
 
 
 import {Grid, Row, Col} from 'react-bootstrap';
@@ -50,8 +52,9 @@ class LitoDue extends React.Component {
 function filtra(presentiZoomAttuale) {
     const esaminaLito = ({liv_2}) => {
         var trovato = false;
+        var element = null;
         for (var index = 0; index < presentiZoomAttuale.length; index++) {
-            var element = presentiZoomAttuale[index];
+            element = presentiZoomAttuale[index];
             trovato = element === liv_2 ? true : trovato;
         }
         return trovato;
@@ -72,11 +75,12 @@ class ARPLegendaTool extends React.Component {
     static defaultProps = {
         id: "andrea-legenda",
         style: {
-            zIndex: 1050,
+            zIndex: 10,
             position: 'absolute',
             top: '50px',
             left: '50px',
-            "background-color": 'white'
+            backgroundColor: '#fff',
+            opacity: 1.0
         }
     };
 
@@ -85,22 +89,9 @@ class ARPLegendaTool extends React.Component {
         return (
             <div id={this.props.id} style={this.props.style}>
                 <div>
-                    <div>
-                        <h2>presenti</h2>
-                    </div>
-                    <LitoDue items={soloPeresentiFn(this.props.leg_full)}/>
+                    <h2>PRESENTI</h2>
                 </div>
-                {/* <p>Legenda Litologica Formazioni presenti</p>
-                {this
-                    .props
-                    .leg_partial
-                    .map((item) => <div key={item}>{item}</div>)} */}
-                {/* <div>
-                    <div>
-                        <h2>Legenda Litologica livello 2</h2>
-                    </div>
-                    <LitoDue items={this.props.leg_full}/>
-                </div> */}
+                <LitoDue items={soloPeresentiFn(this.props.leg_full)}/>
             </div>
         );
     }
@@ -124,4 +115,3 @@ module.exports = {
         trovaCodiciLegendaEpics
     }
 };
-
