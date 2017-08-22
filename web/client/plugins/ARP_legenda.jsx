@@ -29,12 +29,19 @@ const Casella = (props) => (
 );
 
 class LitoDue extends React.Component {
+    static propTypes = {
+        items: PropTypes.array
+    };
+
+    static defaultProps = {
+        items: []
+    };
+
     render() {
+        const {items} = this.props;
         return (
             <div>
-                {this
-                    .props
-                    .items
+                {items
                     .map(item => (
                         <Grid>
                             <Row key={item.liv_2}>
@@ -52,9 +59,8 @@ class LitoDue extends React.Component {
 function filtra(presentiZoomAttuale) {
     const esaminaLito = ({liv_2}) => {
         var trovato = false;
-        var element = null;
-        for (var index = 0; index < presentiZoomAttuale.length; index++) {
-            element = presentiZoomAttuale[index];
+        for (let index = 0; index < presentiZoomAttuale.length; index++) {
+            let element = presentiZoomAttuale[index];
             trovato = element === liv_2 ? true : trovato;
         }
         return trovato;

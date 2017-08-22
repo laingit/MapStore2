@@ -74,16 +74,27 @@ var Node = createReactClass({
 
     render() {
         let expanded = this.props.node.expanded !== undefined ? this.props.node.expanded : true;
-        let prefix = this.props.type;
-        const nodeStyle = assign({}, this.props.style, this.props.styler(this.props.node));
+
         let collapsible = expanded ? this.renderChildren((child) => child && child.props.position === 'collapsible') : [];
         if (this.props.animateCollapse) {
-            collapsible = <CSSTransitionGroup transitionName="TOC-Node" transitionEnterTimeout={250} transitionLeaveTimeout={250}>{collapsible}</CSSTransitionGroup>;
+            collapsible = (
+                <CSSTransitionGroup
+                    transitionName="TOC-Node"
+                    transitionEnterTimeout={250}
+                    transitionLeaveTimeout={250}>
+                    {collapsible}
+                </CSSTransitionGroup>);
         }
-        let content = (<div key={this.props.node.name} className={(expanded ? prefix + "-expanded" : prefix + "-collapsed") + " " + this.props.className} style={nodeStyle} >
-            {this.renderChildren((child) => child && child.props.position !== 'collapsible')}
-            {collapsible}
-        </div>);
+
+        let prefix = this.props.type;
+        const nodeStyle = assign({}, this.props.style, this.props.styler(this.props.node));
+        const contentClass = (expanded ? prefix + "-expanded" : prefix + "-collapsed") + " " + this.props.className;
+        let content = (
+            <div key={this.props.node.name} className={contentClass} style={nodeStyle} >
+                {this.renderChildren((child) => child && child.props.position !== 'collapsible')}
+                {collapsible}
+            </div>);
+
         return this.props.isDraggable ? this.renderWithSortable(content) : content;
     }
 });
