@@ -1,7 +1,7 @@
 const PropTypes = require('prop-types');
 const React = require('react');
 const {connect} = require('react-redux');
-
+const Dialog = require('../components/misc/Dialog');
 
 const {
     getLegendaEpics,
@@ -14,15 +14,18 @@ import {Grid, Row, Col} from 'react-bootstrap';
 function stile(colore) {
     return {
         padding: '2px',
-        margin: "2px",
+        margin: '2px',
         border: 'solid black 1px',
         width: '50px',
         height: '20px',
-        fontSize: '12px',
+        fontSize: '11px',
         background: colore
     };
 }
 
+const stileDesc = {
+    fontSize: '12px'
+};
 
 const Casella = (props) => (
   <div style={stile(props.colore)}><b>{props.sigla}</b></div>
@@ -43,12 +46,10 @@ class LitoDue extends React.Component {
             <div>
                 {items
                     .map(item => (
-                        <Grid>
                             <Row key={item.liv_2}>
                                 <Col md={1}><Casella colore={item.rgb} sigla={item.liv_2}/></Col>
-                                <Col md={11}>{item.liv_2_desc}</Col>
+                                <Col md={11} style={stileDesc}> {item.liv_2_desc}</Col>
                             </Row>
-                        </Grid>
                     ))}
             </div>
         );
@@ -93,12 +94,11 @@ class ARPLegendaTool extends React.Component {
     render() {
         const soloPeresentiFn = filtra(this.props.leg_partial);
         return (
-            <div id={this.props.id} style={this.props.style}>
-                <div>
-                    <h2>PRESENTI</h2>
-                </div>
-                <LitoDue items={soloPeresentiFn(this.props.leg_full)}/>
-            </div>
+            <Dialog style={{width: '1000px'}}>
+                <div role="header">Legenda Carta Litologica - livello 2</div>
+                <div role="body" style={{width: '1000px'}}><LitoDue items={soloPeresentiFn(this.props.leg_full)}/></div>
+                <div role="footer">footer</div>
+            </Dialog>
         );
     }
 }
