@@ -24,7 +24,7 @@ class MapType extends React.Component {
     };
 
     static defaultProps = {
-        mapType: 'leaflet',
+        mapType: 'openlayers',
         onChangeMapType: () => {},
         mapTypes: [
             { key: "leaflet", label: "Leaflet"},

@@ -38,7 +38,8 @@ module.exports = {
     AttributionPlugin: assign(Attribution, {
         OmniBar: {
             position: 1,
-            tool: () => <div className="navbar-header"><img className="customer-logo" src={src} height="36" /></div>,
+            tool: () => <div className="navbar-header" style={{padding: '5px'}}><h4><b>Dipartimento Geologico - Arpas</b></h4></div>,
+            // tool: () => <div className="navbar-header"><img className="customer-logo" src={src} height="36" /></div>,
             priority: 1
         }
     })
