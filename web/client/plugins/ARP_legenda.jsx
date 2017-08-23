@@ -1,7 +1,9 @@
 const PropTypes = require('prop-types');
 const React = require('react');
+const {bindActionCreators} = require('redux');
 const {connect} = require('react-redux');
 const Dialog = require('../components/misc/Dialog');
+const {toggleShow} = require('../actions/ARP_legendaActions');
 
 const {
     getLegendaEpics,
@@ -9,15 +11,15 @@ const {
 } = require('../epics/ARP_legendaEpics');
 
 
-import {Grid, Row, Col, Tab, Tabs} from 'react-bootstrap';
+import {Row, Col, Tab, Tabs, Glyphicon} from 'react-bootstrap';
 
 function stile(colore) {
     return {
-        padding: '2px',
-        margin: '2px',
+        padding: '1px',
+        margin: '1px',
         border: 'solid black 1px',
-        width: '50px',
-        height: '20px',
+        width: '40px',
+        height: '18px',
         fontSize: '11px',
         background: colore
     };
@@ -76,7 +78,9 @@ class ARPLegendaTool extends React.Component {
         id: PropTypes.string,
         style: PropTypes.object,
         leg_full: PropTypes.array,
-        leg_partial: PropTypes.array
+        leg_partial: PropTypes.array,
+        showLegend: PropTypes.bool.isRequired,
+        toggleMostra: PropTypes.func
     };
 
     static defaultProps = {
@@ -93,12 +97,30 @@ class ARPLegendaTool extends React.Component {
 
     render() {
         const soloPeresentiFn = filtra(this.props.leg_partial);
+        const {showLegend, toggleMostra} = this.props;
+        // Show Legenda o Button
+        if (!showLegend) {
+            return (
+                <button
+                    style={{zIndex: 2,
+                        position: 'absolute',
+                        left: '50px',
+                        height: '30px',
+                        fontSize: '14px',
+                        backgroundColor: '#fff'}}
+                    onClick={toggleMostra}
+                >
+                    Legenda Litologica
+                </button>
+            );
+        }
         return (
             <Dialog style={{width: '1000px'}}>
                 <div role="header">
-                    <button>ok</button>
                     Legenda Carta Litologica - livello 2
-                    <button>ok</button>
+                    <button onClick={toggleMostra} className="settings-panel-close close">
+                        <Glyphicon glyph="1-close"/>
+                    </button>
                 </div>
                 <div role="body" style={{width: '1000px'}}>
                     <Tabs
@@ -120,11 +142,18 @@ class ARPLegendaTool extends React.Component {
 function mapStateToProps(state) {
     return {
         leg_full: state.ARP_legenda.ARP_legenda_full,
-        leg_partial: state.ARP_legenda.ARP_legenda_partial
+        leg_partial: state.ARP_legenda.ARP_legenda_partial,
+        showLegend: state.ARP_legenda.show
      };
 }
 
-const ARPLegendaToolRedux = connect(mapStateToProps)(ARPLegendaTool);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        toggleMostra: toggleShow
+    }, dispatch);
+}
+
+const ARPLegendaToolRedux = connect(mapStateToProps, mapDispatchToProps)(ARPLegendaTool);
 
 module.exports = {
     ARP_legendaPlugin: ARPLegendaToolRedux,

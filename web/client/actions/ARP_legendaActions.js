@@ -1,7 +1,7 @@
 var axios = require('../libs/ajax');
 const Proj4js = require('proj4');
 
-const ARP_LEGENDA_DOMAIN = 'ARP_LEGENDA_DOMAIN';
+const ARP_LEGENDA_TOGGLE_SHOW = 'ARP_LEGENDA_TOGGLE_SHOW';
 const ARP_LEGENDA_PARTIAL = 'ARP_LEGENDA_PARTIAL';
 const ARP_LEGENDA_FULL_DESCRIPTION = 'ARP_LEGENDA_FULL_DESCRIPTION';
 
@@ -41,6 +41,12 @@ function setArpLegendaPartialAC(data) {
     return {
         type: ARP_LEGENDA_PARTIAL,
         ARP_legenda_partial: data
+    };
+}
+
+function toggleShow() {
+    return {
+        type: ARP_LEGENDA_TOGGLE_SHOW
     };
 }
 
@@ -109,7 +115,7 @@ function getArpLegendaPartial(state, action) {
  * @name actions.maptype
  */
 module.exports = {
-    ARP_LEGENDA_DOMAIN,
+    ARP_LEGENDA_TOGGLE_SHOW, toggleShow,
     ARP_LEGENDA_FULL_DESCRIPTION, getArpLegendaFullDescription,
     ARP_LEGENDA_PARTIAL, getArpLegendaPartial
 };

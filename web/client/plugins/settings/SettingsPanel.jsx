@@ -26,9 +26,11 @@ class SettingsPanel extends React.Component {
     };
 
     render() {
-        return (<div style={this.props.style}>
-            {this.props.children}
-        </div>);
+        return (
+            <div style={this.props.style}>
+                {this.props.children}
+            </div>
+        );
 
     }
 }
