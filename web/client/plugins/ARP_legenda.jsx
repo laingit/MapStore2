@@ -9,7 +9,7 @@ const {
 } = require('../epics/ARP_legendaEpics');
 
 
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Grid, Row, Col, Tab, Tabs} from 'react-bootstrap';
 
 function stile(colore) {
     return {
@@ -95,9 +95,22 @@ class ARPLegendaTool extends React.Component {
         const soloPeresentiFn = filtra(this.props.leg_partial);
         return (
             <Dialog style={{width: '1000px'}}>
-                <div role="header">Legenda Carta Litologica - livello 2</div>
-                <div role="body" style={{width: '1000px'}}><LitoDue items={soloPeresentiFn(this.props.leg_full)}/></div>
-                <div role="footer">footer</div>
+                <div role="header">
+                    <button>ok</button>
+                    Legenda Carta Litologica - livello 2
+                    <button>ok</button>
+                </div>
+                <div role="body" style={{width: '1000px'}}>
+                    <Tabs
+                        id="controlled-tab-example">
+                        <Tab eventKey={1} title="Completa"><LitoDue items={this.props.leg_full}/></Tab>
+                        <Tab eventKey={2} title="Vista Attule"><LitoDue items={soloPeresentiFn(this.props.leg_full)}/></Tab>
+                        <Tab eventKey={3} title="Collassa">Collassato</Tab>
+                    </Tabs>
+                </div>
+                <div role="footer">
+                    footer
+                </div>
             </Dialog>
         );
     }

@@ -109,9 +109,7 @@ function getArpLegendaPartial(state, action) {
  * @name actions.maptype
  */
 module.exports = {
-    getArpLegendaFullDescription,
-    getArpLegendaPartial,
     ARP_LEGENDA_DOMAIN,
-    ARP_LEGENDA_PARTIAL,
-    ARP_LEGENDA_FULL_DESCRIPTION
+    ARP_LEGENDA_FULL_DESCRIPTION, getArpLegendaFullDescription,
+    ARP_LEGENDA_PARTIAL, getArpLegendaPartial
 };
