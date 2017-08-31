@@ -125,11 +125,11 @@ class ARPLegendaTool extends React.Component {
                 <div role="body" style={{width: '1000px'}}>
                     <Tabs
                         id="controlled-tab-example">
-                        <Tab eventKey={1} title="Completa"><LitoDue items={this.props.leg_full}/></Tab>
-                        <Tab eventKey={2} title="Vista Attule">
+                        <Tab eventKey={1} title="Vista Attule">
                             <LitoDue items={soloPeresentiFn(this.props.leg_full)}/>
                             <i>Nota: il calcolo delle formazioni presenti è ancora in fase di test</i>
                         </Tab>
+                        <Tab eventKey={2} title="Completa"><LitoDue items={this.props.leg_full}/></Tab>
                         <Tab eventKey={3} title="Info">
                             Carta Litologica 2017 - Arpas Dipartimento Geologico
                         </Tab>
