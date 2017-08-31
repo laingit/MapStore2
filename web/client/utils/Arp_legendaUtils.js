@@ -80,7 +80,7 @@ function createFlatten(dataNorm, legenda) {
             let iDsLiv2 = legenda.liv2[id1]; // value = A1, A2, B1 Fkey liv2 - iDs liv1
             iDsLiv2.forEach(ident2 => {      // value = A1.1, A1.2 - iDs liv2
                 let tag2 = ident2[0];
-                let value2 = getFromDataNorm(dataNorm, ident);
+                let value2 = getFromDataNorm(dataNorm, ident2);
                 root.push({tag: tag2, value: value2});
             });
         });
@@ -136,8 +136,8 @@ function compareArrayOfString(a, b) {
 }
 
 export function getTreeGerarchia(codiciTrovati) {
-    if (codiciTrovati === []) {
-        return {liv0: {root: []}};
+    if (codiciTrovati.length === 0) {
+        return [];
     }
     codiciTrovati.sort(compareArrayOfString);
     let legCartografato = selezionaLegendaDaCartografati(DATA_NORMALIZZATA, codiciTrovati);
@@ -145,8 +145,8 @@ export function getTreeGerarchia(codiciTrovati) {
 }
 
 export function getFlattenGerarchia(codiciTrovati) {
-    if (codiciTrovati === []) {
-        return {liv0: {root: []}};
+    if (codiciTrovati.length === 0) {
+        return [];
     }
     codiciTrovati.sort(compareArrayOfString);
     let legCartografato = selezionaLegendaDaCartografati(DATA_NORMALIZZATA, codiciTrovati);

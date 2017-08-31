@@ -5,6 +5,8 @@ const {connect} = require('react-redux');
 const Dialog = require('../components/misc/Dialog');
 const {toggleShow} = require('../actions/ARP_legendaActions');
 
+import {getFlattenGerarchia} from '../utils/Arp_legendaUtils';
+
 const {
     getLegendaEpics,
     trovaCodiciLegendaEpics
@@ -17,6 +19,7 @@ function stile(colore) {
     return {
         padding: '1px',
         margin: '1px',
+        marginLeft: '25px',
         border: 'solid black 1px',
         width: '40px',
         height: '18px',
@@ -30,7 +33,7 @@ const stileDesc = {
 };
 
 const Casella = (props) => (
-  <div style={stile(props.colore)}><b>{props.sigla}</b></div>
+    <div style={stile(props.colore)}><b>{props.sigla}</b></div>
 );
 
 class LitoDue extends React.Component {
@@ -48,9 +51,9 @@ class LitoDue extends React.Component {
             <div>
                 {items
                     .map(item => (
-                            <Row key={item.liv_2}>
-                                <Col md={1}><Casella colore={item.rgb} sigla={item.liv_2}/></Col>
-                                <Col md={11} style={stileDesc}> {item.liv_2_desc}</Col>
+                            <Row key={item.id}>
+                                <Col md={1}><Casella colore={item.rgb} sigla={item.id}/></Col>
+                                <Col md={11} style={stileDesc}> {item.desc}</Col>
                             </Row>
                     ))}
             </div>
@@ -59,12 +62,56 @@ class LitoDue extends React.Component {
 }
 
 
+class LitoDueGearchia extends React.Component {
+    static propTypes = {
+        items: PropTypes.array
+    };
+
+    static defaultProps = {
+        items: []
+    };
+
+    render() {
+        const {items} = this.props;
+        return (
+            <div>
+                {items
+                    .map(item => {
+                        if (item.tag === 'liv0') {
+                            return (<p style={{margin: 0,
+                                                padding: 0,
+                                                paddingLeft: 5}}>
+                                        <b>{item.value.id} - {item.value.desc}</b>
+                                    </p>);
+                        }
+                        if (item.tag === 'liv1') {
+                            return (<p style={{margin: 0,
+                                                padding: 0,
+                                                paddingLeft: 15}}>
+                                        <i>{item.value.id} - {item.value.desc}</i>
+                                    </p>);
+                        }
+                        if (item.tag === 'liv2') {
+                            return (
+                                <Row key={item.id}>
+                                    <Col md={1}><Casella colore={item.value.rgb} sigla={item.value.id}/></Col>
+                                    <Col md={11} style={stileDesc}> {item.value.desc}</Col>
+                                </Row>
+                            );
+                        }
+                    })}
+            </div>
+        );
+    }
+}
+
+
 function filtra(presentiZoomAttuale) {
-    const esaminaLito = ({liv_2}) => {
+    const esaminaLito = ({id}) => {
         var trovato = false;
         for (let index = 0; index < presentiZoomAttuale.length; index++) {
             let element = presentiZoomAttuale[index];
-            trovato = element === liv_2 ? true : trovato;
+            trovato = element === id ? true : trovato;
         }
         return trovato;
     };
@@ -96,6 +143,8 @@ class ARPLegendaTool extends React.Component {
     };
 
     render() {
+        const flattenGerarchia = getFlattenGerarchia(this.props.leg_partial);
+        // const treeGerarchia = getTreeGerarchia(this.props.leg_partial);
         const soloPeresentiFn = filtra(this.props.leg_partial);
         const {showLegend, toggleMostra} = this.props;
         // Show Legenda o Button
@@ -130,8 +179,8 @@ class ARPLegendaTool extends React.Component {
                             <i>Nota: il calcolo delle formazioni presenti è ancora in fase di test</i>
                         </Tab>
                         <Tab eventKey={2} title="Completa"><LitoDue items={this.props.leg_full}/></Tab>
-                        <Tab eventKey={3} title="Info">
-                            Carta Litologica 2017 - Arpas Dipartimento Geologico
+                        <Tab eventKey={3} title="Gerarchia">
+                            <LitoDueGearchia items={flattenGerarchia}/>
                         </Tab>
                     </Tabs>
                 </div>
