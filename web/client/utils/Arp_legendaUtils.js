@@ -2,6 +2,12 @@ import livDueGerarchia from '../DATA/liv_due_gerarchia.json';
 
 let DATA_NORMALIZZATA = livDueGerarchia.data;
 
+function compareArrayOfString(a, b) {
+    if (a < b) { return -1; }
+    if (a > b) { return 1; }
+    return 0;
+}
+
 function getParentsOfVaules(state, tabKey, values) {
     const table = state[tabKey];
     if (!table) {
@@ -94,34 +100,24 @@ function createTree(dataNorm, legenda) {
     let iDsLiv0 = legenda.liv0.root;
     iDsLiv0.forEach(ident0 => {
         let value0 = getFromDataNorm(dataNorm, ident0);
-        let new0 = {
-            tag: "liv0",
-            value: value0,
-            children: []
-        };
+
+        let new0 = {tag: "liv0", value: value0, children: []};
+
         let id0 = ident0[1];
         let iDsLiv1 = legenda.liv1[id0];
         iDsLiv1.forEach(ident1 => {
             let value1 = getFromDataNorm(dataNorm, ident1);
-            let new1 = {
-                tag: "liv1",
-                value: value1,
-                children: []
-            };
-            new0
-                .children
-                .push(new1);
+
+            let new1 = {tag: "liv1", value: value1, children: []};
+            new0.children.push(new1);
+
             let id1 = ident1[1];
             let iDsLiv2 = legenda.liv2[id1]; // value = A1, A2, B1 Fkey liv2 - iDs liv1
             iDsLiv2.forEach(ident2 => { // value = A1.1, A1.2 - iDs liv2
                 let value2 = getFromDataNorm(dataNorm, ident2);
-                let new2 = {
-                    tag: "liv2",
-                    value: value2
-                };
-                new1
-                    .children
-                    .push(new2);
+
+                let new2 = {tag: "liv2", value: value2}; // no children is a Leaf
+                new1.children.push(new2);
             });
         });
         root.push(new0);
@@ -129,11 +125,6 @@ function createTree(dataNorm, legenda) {
     return root;
 }
 
-function compareArrayOfString(a, b) {
-    if (a < b) { return -1; }
-    if (a > b) { return 1; }
-    return 0;
-}
 
 export function getTreeGerarchia(codiciTrovati) {
     if (codiciTrovati.length === 0) {
@@ -153,3 +144,9 @@ export function getFlattenGerarchia(codiciTrovati) {
     return createFlatten(DATA_NORMALIZZATA, legCartografato);
 }
 
+function creaLegendaTotaleLiv2Flatten() {
+    let dominioLiv2 = Object.keys(DATA_NORMALIZZATA.liv2);
+    dominioLiv2.sort(compareArrayOfString);
+    return getFlattenGerarchia(dominioLiv2);
+}
+export const legendaLiv2Flatten = creaLegendaTotaleLiv2Flatten();

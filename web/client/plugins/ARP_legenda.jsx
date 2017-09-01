@@ -5,7 +5,7 @@ const {connect} = require('react-redux');
 const Dialog = require('../components/misc/Dialog');
 const {toggleShow} = require('../actions/ARP_legendaActions');
 
-import {getFlattenGerarchia} from '../utils/Arp_legendaUtils';
+import {getFlattenGerarchia, legendaLiv2Flatten} from '../utils/Arp_legendaUtils';
 
 const {
     getLegendaEpics,
@@ -85,6 +85,9 @@ class LitoDueGearchia extends React.Component {
                                     </p>);
                         }
                         if (item.tag === 'liv1') {
+                            if (item.value.id === "Lc" || item.value.id === "nc") {
+                                return <div></div>;
+                            }
                             return (<p style={{margin: 0,
                                                 padding: 0,
                                                 paddingLeft: 15}}>
@@ -145,7 +148,7 @@ class ARPLegendaTool extends React.Component {
     render() {
         const flattenGerarchia = getFlattenGerarchia(this.props.leg_partial);
         // const treeGerarchia = getTreeGerarchia(this.props.leg_partial);
-        const soloPeresentiFn = filtra(this.props.leg_partial);
+        // const soloPeresentiFn = filtra(this.props.leg_partial);
         const {showLegend, toggleMostra} = this.props;
         // Show Legenda o Button
         if (!showLegend) {
@@ -172,21 +175,24 @@ class ARPLegendaTool extends React.Component {
                     </button>
                 </div>
                 <div role="body" style={{width: '1000px'}}>
-                    <Tabs
-                        id="controlled-tab-example">
-                        <Tab eventKey={1} title="Vista Attule">
+                    <Tabs id="controlled-tab-example">
+                        <Tab eventKey={1} title="Vista Attuale">
+                            <LitoDueGearchia items={flattenGerarchia}/>
+                            <i>Nota: il calcolo delle formazioni presenti è ancora in fase di test</i>
+                        </Tab>
+                        <Tab eventKey={2} title="Completa">
+                            <LitoDueGearchia items={legendaLiv2Flatten}/>
+                        </Tab>
+                        {/* <Tab eventKey={2} title="Vista Attule">
                             <LitoDue items={soloPeresentiFn(this.props.leg_full)}/>
                             <i>Nota: il calcolo delle formazioni presenti è ancora in fase di test</i>
                         </Tab>
-                        <Tab eventKey={2} title="Completa"><LitoDue items={this.props.leg_full}/></Tab>
-                        <Tab eventKey={3} title="Gerarchia">
-                            <LitoDueGearchia items={flattenGerarchia}/>
-                        </Tab>
+                        <Tab eventKey={3} title="Completa"><LitoDue items={this.props.leg_full}/></Tab> */}
                     </Tabs>
                 </div>
-                <div role="footer">
+                {/* <div role="footer">
                     footer
-                </div>
+                </div> */}
             </Dialog>
         );
     }
