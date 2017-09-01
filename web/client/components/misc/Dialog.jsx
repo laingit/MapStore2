@@ -73,27 +73,35 @@ class Dialog extends React.Component {
     };
 
     render() {
-        const dialog = (<Draggable start={this.props.start} handle=".draggable-header, .draggable-header *">
-            <div id={this.props.id} style={{zIndex: 3, ...this.props.style}} className={this.props.className + " modal-dialog-container"}>
-                <div className={this.props.headerClassName + " draggable-header"}>
-                    {this.renderRole('header')}
+        const dialog = (
+            <Draggable start={this.props.start} handle=".draggable-header, .draggable-header *">
+                <div id={this.props.id} style={{zIndex: 3, ...this.props.style}} className={this.props.className + " modal-dialog-container"}>
+                    <div className={this.props.headerClassName + " draggable-header"}>
+                        {this.renderRole('header')}
+                    </div>
+                    <div className={this.props.bodyClassName}>
+                        {this.renderLoading()}
+                        {this.renderRole('body')}
+                    </div>
+                    {this.hasRole('footer') ? <div className={this.props.footerClassName}>
+                        {this.renderRole('footer')}
+                    </div> : <span/>}
                 </div>
-                <div className={this.props.bodyClassName}>
-                    {this.renderLoading()}
-                    {this.renderRole('body')}
-                </div>
-                {this.hasRole('footer') ? <div className={this.props.footerClassName}>
-                    {this.renderRole('footer')}
-                </div> : <span/>}
-            </div>
-        </Draggable>);
+            </Draggable>);
         let containerStyle = assign({}, this.props.style, this.props.backgroundStyle);
-        return this.props.modal ?
+
+        return (
+            this.props.modal
+            ?
             <div onClick={this.props.onClickOut} style={containerStyle} className={"fade in modal " + this.props.containerClassName} role="dialog">
-            <div onClick={(evt)=> {evt.preventDefault(); evt.stopPropagation(); }} className="modal-dialog" style={{background: "transparent"}}>
-                {dialog}
-            </div></div> :
-            dialog;
+                <div onClick={(evt)=> {evt.preventDefault(); evt.stopPropagation(); }}
+                     className="modal-dialog"
+                     style={{background: "transparent"}}>
+                    {dialog}
+                </div>
+            </div>
+            :
+            dialog);
     }
 
     hasRole = (role) => {
