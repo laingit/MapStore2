@@ -49,7 +49,9 @@
             "deleteLayerMessage": "Do you really want to delete this Layer?",
             "confirmDelete": "Are you sure?",
             "featureTypeError": "Cannot load layer attributes",
-            "elevation": "Elevation"
+            "elevation": "Elevation",
+            "titleTranslations": "Title translations",
+            "groupProperties": "Group properties"
         },
         "notification": {
             "update": "Update",
@@ -447,7 +449,7 @@
             "zoomIn": "This is the helptext for the ZoomIn",
             "zoomOut": "This is the helptext for the ZoomOut",
             "searchBar": "Write the address of a place to find. e.g.  '1st avenue, new york'. You can even insert coordinates in this format: 43.87,10.20",
-            "metadataExplorer": "This is the helptext for the MetadataExplorer",
+            "metadataexplorer": "This is the helptext for the MetadataExplorer",
             "settingsPanel": "This is the helptext for the SettingsPanel",
             "gohome": "This is the helptext for Home",
             "measureComponent": "This is the helptext for the MeasureComponent",
@@ -619,15 +621,16 @@
             "titlePanel": "Share the map",
             "socialIntro": "In your favourite social network",
             "directLinkTitle": "Via a direct link",
-            "embeddedLinkTitle": "Via the embedded code",
-            "forceDrawer": "Show TOC",
-            "apiLinkTitle": "Using APIs",
             "social": "Social",
             "direct": "Link",
             "code": "Embed",
+            "embeddedLinkTitle": "Via the embedded code",
+            "forceDrawer": "Show TOC",
+            "apiLinkTitle": "Using APIs",
             "QRCodeLinkTitle": "qr code",
-            "msgCopiedUrl":"Copied",
-            "msgToCopyUrl":"Click to copy"
+            "msgCopiedUrl": "Copied",
+            "msgToCopyUrl": "Click to copy",
+            "sharedTitle": "Check out my new map: "
         },
         "snapshot": {
             "title": "Snapshot Preview",
@@ -654,6 +657,9 @@
         },
         "catalog": {
             "title": "Catalog",
+            "autoload": "Search on service selection",
+            "clearValueText": "Clear selection",
+            "noResultsText": "",
             "tooltip": "Browse Catalog",
             "addToMap": "Add To Map",
             "getWMSLink": "Get WMS Link",
@@ -665,12 +671,27 @@
             "share": "Share",
             "copyToClipboard": "Copy to clipboard",
             "copied": "Copied!",
-            "catalogUrlPlaceholder": "Enter catalog URL...",
             "textSearchPlaceholder": "text to search...",
             "search": "Search",
+            "delete": "Delete",
             "reset": "Clear",
             "options": "Options",
-            "srs_not_allowed": "The map coordinate system is not supported by this service"
+            "srs_not_allowed": "The map coordinate system is not supported by this service",
+            "add": "Add",
+            "service": "Service",
+            "servicePlaceholder": "type a service",
+            "url": "Url",
+            "urlPlaceholder": "type a URL",
+            "type": "Type",
+            "serviceTitle": "Title",
+            "serviceTitlePlaceholder": "type a title",
+            "notification": {
+                "warningAddCatalogService": "Insert a valid url and title",
+                "addCatalogService": "Service added correctly",
+                "duplicatedServiceTitle": "A service with that title already exists. Please, change title",
+                "serviceDeletedCorrectly": "The service was deleted correctly",
+                "errorServiceUrl": "Service not available. Please, check the provided url"
+            }
         },
         "uploader": {
             "filename": "File Name",
