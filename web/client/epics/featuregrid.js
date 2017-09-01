@@ -33,9 +33,11 @@ const {SORT_BY, CHANGE_PAGE, SAVE_CHANGES, SAVE_SUCCESS, DELETE_SELECTED_FEATURE
 const {TOGGLE_CONTROL, resetControls} = require('../actions/controls');
 const {setHighlightFeaturesPath} = require('../actions/highlight');
 const {refreshLayerVersion} = require('../actions/layers');
+
 const {selectedFeaturesSelector, changesMapSelector, newFeaturesSelector, hasChangesSelector, hasNewFeaturesSelector,
     selectedFeatureSelector, selectedFeaturesCount, selectedLayerIdSelector, isDrawingSelector, modeSelector,
     isFeatureGridOpen} = require('../selectors/featuregrid');
+const {queryPanelSelector} = require('../selectors/controls');
 
 const {error} = require('../actions/notifications');
 const {describeSelector, isDescribeLoaded, getFeatureById, wfsURL, wfsFilter, featureCollectionResultSelector} = require('../selectors/query');
@@ -328,7 +330,7 @@ module.exports = {
 
     ),
     /**
-     * intercept geomertry changed events in draw support to update current
+     * intercept geometry changed events in draw support to update current
      * modified geometry in featuregrid
      */
     onFeatureGridGeometryEditing: (action$, store) => action$.ofType(GEOMETRY_CHANGED)
@@ -400,6 +402,11 @@ module.exports = {
                 )
                 .takeUntil(action$.ofType(CLOSE_FEATURE_GRID))
         ),
+    resetQueryPanel: (action$, store) =>
+        action$.ofType(LOCATION_CHANGE).switchMap( () => {
+            return queryPanelSelector(store.getState()) ? Rx.Observable.of(setControlProperty('queryPanel', "enabled", false))
+        : Rx.Observable.empty(); }
+    ),
     /**
      * Closes the feature grid when the drawer menu button has been toggled
      */
@@ -424,10 +431,10 @@ module.exports = {
             return Rx.Observable.of(setControlProperty("drawer", "enabled", false), toggleTool("featureCloseConfirm", false));
         }),
     onOpenAdvancedSearch: (action$, store) =>
-        action$.ofType(OPEN_ADVANCED_SEARCH).switchMap(() =>
-            Rx.Observable.of(
-                setControlProperty('queryPanel', "enabled", true),
-                closeFeatureGrid()
+        action$.ofType(OPEN_ADVANCED_SEARCH).switchMap(() => {
+            return Rx.Observable.of(
+                closeFeatureGrid(),
+                setControlProperty('queryPanel', "enabled", true)
             ).merge(
                 action$.ofType(QUERY_FORM_RESET) // ON RESET YOU HAVE TO PERFORM A SEARCH AGAIN WHEN BACK
                     .switchMap(() => action$.ofType(TOGGLE_CONTROL)
@@ -452,8 +459,8 @@ module.exports = {
                             )
                     )
                 ).takeUntil(action$.ofType(OPEN_FEATURE_GRID, LOCATION_CHANGE))
-            )
-        ),
+            );
+        }),
     onFeatureGridZoomAll: (action$, store) =>
         action$.ofType(ZOOM_ALL).switchMap(() =>
             Rx.Observable.of(zoomToExtent(bbox(featureCollectionResultSelector(store.getState())), "EPSG:4326"))

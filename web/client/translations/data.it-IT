@@ -49,7 +49,9 @@
             "deleteLayerMessage": "Sei sicuro di voler eliminare questo livello?",
             "confirmDelete": "Sei sicuro?",
             "featureTypeError": "Impossibile caricare gli attributi del layer",
-            "elevation": "Elevazione"
+            "elevation": "Elevazione",
+            "titleTranslations": "Title translations",
+            "groupProperties": "Group properties"
         },
         "notification": {
             "update": "Aggiorna",
@@ -448,7 +450,7 @@
             "zoomIn": "Questo è il testo di aiuto per ZoomIn",
             "zoomOut": "Questo è il testo di aiuto per ZoomOut",
             "searchBar": "Scrivi un indirizzo di un luogo per trovarlo. esempio:  '1st avenue, new york'. Puoi anche digitare le coordinate in questo formato: 43.87,10.20",
-            "metadataExplorer": "Questo è il testo di aiuto per MetadataExplorer",
+            "metadataexplorer": "Questo è il testo di aiuto per MetadataExplorer",
             "settingsPanel": "Questo è il testo di aiuto per SettingsPanel",
             "gohome": "Questo è il testo di aiuto per Home",
             "measureComponent": "Questo è il testo di aiuto per MeasureComponent",
@@ -615,7 +617,7 @@
           "errorDelete": "Si è verificato un errore rimuovendo questo utente:",
           "confirmDeleteGroup": "Sei sicuro di voler cancellare questo gruppo?"
         },
-        "share":{
+        "share": {
             "title": "Condividi",
             "titlePanel": "Condividi la mappa",
             "socialIntro": "Sul tuo social preferito",
@@ -627,8 +629,9 @@
             "forceDrawer": "Mostra l'indice dei livelli",
             "apiLinkTitle": "Usando le API",
             "QRCodeLinkTitle": "Usando il QR Code",
-            "msgCopiedUrl":"Copiato",
-            "msgToCopyUrl":"Clicca per copiare"
+            "msgCopiedUrl": "Copiato",
+            "msgToCopyUrl": "Clicca per copiare",
+            "sharedTitle": "Guarda la mia nuova mappa: "
         },
         "snapshot": {
             "title": "Istantanea",
@@ -655,6 +658,9 @@
         },
         "catalog": {
             "title": "Catalogo",
+            "autoload": "Ricerca alla selezione del servizio",
+            "clearValueText": "Cancella selezione",
+            "noResultsText": "Nessun risultato trovato",
             "tooltip": "Sfoglia Catalogo",
             "addToMap": "Aggiungi alla mappa",
             "getWMSLink": "Ottieni link WMS",
@@ -666,12 +672,27 @@
             "share": "Condividi",
             "copyToClipboard": "Copia negli appunti",
             "copied": "Copiato!",
-            "catalogUrlPlaceholder": "URL del catalogo...",
             "textSearchPlaceholder": "testo da cercare...",
             "search": "Cerca",
+            "delete": "Elimina",
             "reset": "Reset",
             "options": "Opzioni",
-            "srs_not_allowed": "Il sistema di coordinate della mappa non è supportato da questo servizio"
+            "srs_not_allowed": "Il sistema di coordinate della mappa non è supportato da questo servizio",
+            "add": "Aggiungi",
+            "service": "Servizio",
+            "servicePlaceholder": "seleziona un servizio",
+            "url": "Url",
+            "urlPlaceholder": "inserisci un url",
+            "type": "Tipo",
+            "serviceTitle": "Titolo",
+            "serviceTitlePlaceholder": "inserisci un titolo",
+            "notification": {
+                "warningAddCatalogService": "Inserisci un url e titolo validi.",
+                "addCatalogService": "Servizio aggiunto corretamente.",
+                "duplicatedServiceTitle": "Un servizio con quel titolo esiste già, Per favore cambia titolo",
+                "serviceDeletedCorrectly": "Il servizio è stato eliminato correttamente",
+                "errorServiceUrl": "Servizio non disponibile. Verifica l'url inserito."
+            }
         },
         "uploader": {
             "filename": "File Name",

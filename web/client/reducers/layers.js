@@ -8,7 +8,7 @@
 
 var {LAYER_LOADING, LAYER_LOAD, LAYER_ERROR, CHANGE_LAYER_PROPERTIES, CHANGE_GROUP_PROPERTIES,
     TOGGLE_NODE, SORT_NODE, REMOVE_NODE, UPDATE_NODE, ADD_LAYER, REMOVE_LAYER,
-    SHOW_SETTINGS, HIDE_SETTINGS, UPDATE_SETTINGS, REFRESH_LAYERS, LAYERS_REFRESH_ERROR, LAYERS_REFRESHED
+    SHOW_SETTINGS, HIDE_SETTINGS, UPDATE_SETTINGS, REFRESH_LAYERS, LAYERS_REFRESH_ERROR, LAYERS_REFRESHED, CLEAR_LAYERS
     } = require('../actions/layers');
 
 const {TOGGLE_CONTROL} = require('../actions/controls');
@@ -182,8 +182,21 @@ function layers(state = [], action) {
             }
         }
         case UPDATE_NODE: {
-            const flatLayers = (state.flat || []);
+
             const selector = action.nodeType === 'groups' ? 'group' : 'id';
+
+            if (selector === 'group') {
+                const groups = state.groups ? [].concat(state.groups) : [];
+                const newGroups = groups.map((group) => {
+                    if (group.id === action.node) {
+                        return assign({}, group, action.options);
+                    }
+                    return assign({}, group);
+                });
+                return assign({}, state, {groups: newGroups});
+            }
+
+            const flatLayers = (state.flat || []);
 
             // const newGroups = action.options && action.options.group && action.options.group !== layer;
             let sameGroup = action.options.hasOwnProperty("group") ? false : true;
@@ -285,6 +298,12 @@ function layers(state = [], action) {
             const settings = assign({}, state.settings, {options: options});
             return assign({}, state, {
                 settings: settings
+            });
+        }
+        case CLEAR_LAYERS: {
+            return assign({}, state, {
+                flat: [],
+                groups: []
             });
         }
         default:
