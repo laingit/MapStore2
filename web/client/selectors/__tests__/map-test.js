@@ -7,9 +7,14 @@
 */
 
 const expect = require('expect');
-const {mapSelector, projectionSelector, mapVersionSelector, mapIdSelector} = require('../map');
+const {mapSelector, projectionSelector, mapVersionSelector, mapIdSelector, projectionDefsSelector, mapNameSelector} = require('../map');
 const center = {x: 1, y: 1};
-let state = {map: {center: center}};
+let state = {
+        map: {center: center},
+        mapInitialConfig: {
+            mapId: 123
+        }
+    };
 
 describe('Test map selectors', () => {
     it('test mapSelector from config', () => {
@@ -41,6 +46,12 @@ describe('Test map selectors', () => {
         expect(props.center.x).toBe(1);
     });
 
+    it('test projectionDefsSelector ', () => {
+        const props = projectionDefsSelector({localConfig: {projectionDefs: [{code: "some"}, {code: "another"}]}});
+
+        expect(props.length).toBe(2);
+    });
+
     it('test mapSelector from map non configured', () => {
         const props = mapSelector({config: null});
 
@@ -48,12 +59,22 @@ describe('Test map selectors', () => {
     });
 
     it('test mapIdSelector', () => {
-        const props = mapIdSelector({map: {present: {mapId: "id"}}});
-        expect(props).toBe("id");
+        const props = mapIdSelector(state);
+        expect(props).toBe(123);
     });
 
     it('test mapVersionSelector', () => {
         const props = mapVersionSelector({map: {present: {version: 2}}});
         expect(props).toBe(2);
+    });
+
+    it('test mapNameSelector', () => {
+        const props = mapNameSelector({map: {present: {info: { name: 'map name' }}}});
+        expect(props).toBe('map name');
+    });
+
+    it('test mapNameSelector no state', () => {
+        const props = mapNameSelector({});
+        expect(props).toBe('');
     });
 });

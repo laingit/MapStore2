@@ -37,6 +37,20 @@ let defaultConfig = {
     mapquestApiKey: null
 };
 
+const getConfigurationOptions = function(query, defaultName, extension, geoStoreBase) {
+    const mapId = query.mapId;
+    let configUrl;
+    if (mapId) {
+        configUrl = ( geoStoreBase || defaultConfig.geoStoreUrl ) + "data/" + mapId;
+    } else {
+        configUrl = (query.config || defaultName || 'config') + '.' + (extension || 'json');
+    }
+    return {
+        configUrl: configUrl,
+        legacy: !!mapId
+    };
+};
+
 var ConfigUtils = {
     defaultSourceType: "gxp_wmssource",
     backgroundGroup: "background",
@@ -100,22 +114,25 @@ var ConfigUtils = {
         };
     },
     getUserConfiguration: function(defaultName, extension, geoStoreBase) {
-        return ConfigUtils.getConfigurationOptions(urlQuery, defaultName, extension, geoStoreBase);
+        return getConfigurationOptions(urlQuery, defaultName, extension, geoStoreBase);
     },
-    getConfigurationOptions: function(query, defaultName, extension, geoStoreBase) {
-        const mapId = query.mapId;
-        let configUrl;
-        if (mapId) {
-            configUrl = ( geoStoreBase || defaultConfig.geoStoreUrl ) + "data/" + mapId;
-        } else {
-            configUrl = (query.config || defaultName || 'config') + '.' + (extension || 'json');
+    getConfigurationOptions,
+    getConfigUrl: ({mapId, config}) => {
+        let id = mapId;
+        let configUrl = config;
+        // if mapId is a string, is the name of the config to load
+        try {
+            let mapIdNumber = parseInt(id, 10);
+            if (isNaN(mapIdNumber)) {
+                configUrl = mapId;
+                id = null;
+            }
+        } catch (e) {
+            configUrl = mapId;
+            id = null;
         }
-        return {
-            configUrl: configUrl,
-            legacy: !!mapId
-        };
+        return getConfigurationOptions({mapId: id, config: configUrl});
     },
-
     convertFromLegacy: function(config) {
         var mapConfig = config.map;
         var sources = config.gsSources || config.sources;
@@ -281,6 +298,7 @@ var ConfigUtils = {
         let ua = navigator.userAgent.toLowerCase();
         let webkit = ua.indexOf('webkit') !== -1;
         let chrome = ua.indexOf('chrome') !== -1;
+        let safari = ua.indexOf('safari') !== -1 && ua.indexOf('chrome') === -1;
         let phantomjs = ua.indexOf('phantom') !== -1;
         let android = ua.indexOf('android') !== -1;
         let android23 = ua.search('android [23]') !== -1;
@@ -315,6 +333,8 @@ var ConfigUtils = {
             android23: android23,
 
             chrome: chrome,
+
+            safari,
 
             ie3d: ie3d,
             webkit3d: webkit3d,
