@@ -74,8 +74,9 @@ var Node = createReactClass({
 
     render() {
         let expanded = this.props.node.expanded !== undefined ? this.props.node.expanded : true;
-
-        let collapsible = expanded ? this.renderChildren((child) => child && child.props.position === 'collapsible') : [];
+        let prefix = this.props.type;
+        const nodeStyle = assign({}, this.props.style, this.props.styler(this.props.node));
+        let collapsible = expanded && this.props.node.loadingError !== 'Error' ? this.renderChildren((child) => child && child.props.position === 'collapsible') : [];
         if (this.props.animateCollapse) {
             collapsible = (
                 <CSSTransitionGroup
@@ -86,8 +87,6 @@ var Node = createReactClass({
                 </CSSTransitionGroup>);
         }
 
-        let prefix = this.props.type;
-        const nodeStyle = assign({}, this.props.style, this.props.styler(this.props.node));
         const contentClass = (expanded ? prefix + "-expanded" : prefix + "-collapsed") + " " + this.props.className;
         let content = (
             <div key={this.props.node.name} className={contentClass} style={nodeStyle} >

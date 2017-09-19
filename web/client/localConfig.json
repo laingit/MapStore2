@@ -9,7 +9,7 @@
     "bingApiKey": "AhuXBu7ipR1gNbBfXhtUAyCZ6rkC5PkWpxs2MnMRZ1ZupxQfivjLCch22ozKSCAn",
     "mapquestApiKey": "__API_KEY_MAPQUEST__",
     "initialMapFilter": "",
-    "ignoreMobileCss": true,
+    "ignoreMobileCss": false,
     "useAuthenticationRules": true,
     "themePrefix": "ms2",
     "defaultMapOptions": {
@@ -29,7 +29,9 @@
     }],
     "monitorState": [
       {"name": "routing", "path": "routing.location.pathname"},
+      {"name": "browser", "path": "browser"},
       {"name": "featuregridmode", "path": "featuregrid.mode"}],
+    "projectionDefs": [],
     "initialState": {
       "defaultState": {
         "catalog":{
@@ -62,33 +64,6 @@
                 "autoload": false
               }
             }
-          },
-          "selectedService": "Demo CSW Service",
-          "services": {
-            "Demo CSW Service": {
-              "url": "https://demo.geo-solutions.it/geoserver/csw",
-              "type": "csw",
-              "title": "Demo CSW Service",
-              "autoload": true
-            },
-            "Demo WMS Service": {
-              "url": "https://demo.geo-solutions.it/geoserver/wms",
-              "type": "wms",
-              "title": "Demo WMS Service",
-              "autoload": false
-            },
-            "Demo WMTS Service": {
-              "url": "https://demo.geo-solutions.it/geoserver/gwc/service/wmts",
-              "type": "wmts",
-              "title": "Demo WMTS Service",
-              "autoload": false
-            }
-          },
-          "newService": {
-              "title": "",
-              "type": "wms",
-              "url": "",
-              "autoload": false
           }
         }
       }
@@ -103,7 +78,7 @@
             {
                 "name": "BackgroundSelector",
                 "cfg": {
-                    "bottom": 40,
+                    "bottom": 5,
                     "dimensions": {
                     "side": 65,
                     "sidePreview": 65,
@@ -152,11 +127,6 @@
                 "cfg": {
                     "wrap": true
                 }
-            }, "About", {
-                "name": "MousePosition",
-                "cfg": {
-                    "id": "mapstore-mouseposition-mobile"
-                }
             }, {
                 "name": "Search",
                 "cfg": {
@@ -168,14 +138,6 @@
                 "cfg": {
                     "id": "navigationBar"
                 }
-            }, {
-                "name": "Toolbar",
-                "id": "IdentifyBar",
-                "stateSelector": "identify",
-                "cfg": {
-                    "id": "identifyBar"
-                },
-                "isDefault": false
             }, "ZoomAll", {
                 "name": "MapLoading",
                 "override": {
@@ -200,10 +162,31 @@
             }
         ],
 
-        "desktop": ["Map", "AutoMapUpdate", "HelpLink", "Share", "DrawerMenu", "Version", "Notifications", {"name": "BackgroundSelector", "cfg": { "bottom": 40 } },
+        "desktop": [
+          {
+            "name": "Map",
+            "cfg": {
+              "mapOptions": {
+                "openlayers": {
+                  "attribution": {
+                    "container": "#mapstore-map-footer-container"
+                  }
+                },
+                "leaflet": {
+                  "attribution": {
+                    "container": "#mapstore-map-footer-container"
+                  }
+                }
+              },
+              "toolsOptions": {
+                "scalebar": {
+                  "container" : "#mapstore-map-footer-container"
+                }
+              }
+            }
+          }, "AutoMapUpdate", "HelpLink", "Share", "DrawerMenu", "Version", "Notifications", "BackgroundSelector",
             {
                 "name": "Identify",
-                "showIn": ["IdentifyBar", "Settings"],
                 "cfg": {
                     "viewerOptions": {
                         "container": "{context.ReactSwipe}",
@@ -212,9 +195,15 @@
                             "useButtons": true
                         }
                     }
+                },
+                "override": {
+                  "Toolbar": {
+                    "position": 11,
+                    "alwaysVisible": true
+                  }
                 }
             },
-            "MadeWithLove", {
+            {
                 "name": "Locate",
                 "override": {
                     "Toolbar": {
@@ -244,6 +233,7 @@
                 "name": "TOC",
                 "cfg": {
                     "activateQueryTool": true,
+                    "activateAddLayerButton": true,
                     "spatialOperations": [
                         {"id": "INTERSECTS", "name": "queryform.spatialfilter.operations.intersects"},
                         {"id": "BBOX", "name": "queryform.spatialfilter.operations.bbox"},
@@ -257,7 +247,7 @@
                         {"id": "Polygon", "name": "queryform.spatialfilter.methods.poly"}
                     ]
                 }
-            }, "Tutorial", {
+            }, "Tutorial", "MapFooter", {
                 "name": "Measure"
             }, "Print", "ShapeFile", {
                 "name": "Settings",
@@ -274,7 +264,19 @@
                         "wmts": "https://demo.geo-solutions.it/geoserver/gwc/service/wmts"
                     }
                 }
-            }, "About", "MousePosition", {
+            }, {
+              "name": "About",
+              "showIn": ["BurgerMenu"]
+            }, {
+              "name": "MousePosition",
+              "cfg": {
+                "editCRS": true,
+                "showLabels": true,
+                "showToggle": true,
+                "filterAllowedCRS": ["EPSG:4326", "EPSG:3857"],
+                "additionalCRS": {}
+              }
+            }, {
                 "name": "Search",
                 "cfg": {
                     "withToggle": ["max-width: 768px", "min-width: 768px"]
@@ -285,14 +287,6 @@
                 "cfg": {
                     "id": "navigationBar"
                 }
-            }, {
-                "name": "Toolbar",
-                "id": "IdentifyBar",
-                "stateSelector": "identify",
-                "cfg": {
-                    "id": "identifyBar"
-                },
-                "isDefault": false
             },
             "ScaleBox", {
               "name":"ZoomAll",
@@ -334,7 +328,24 @@
         "embedded": [{
                 "name": "Map",
                 "cfg": {
-                    "tools": ["locate"]
+                    "tools": ["locate"],
+                  "mapOptions": {
+                    "openlayers": {
+                      "attribution": {
+                        "container": "#mapstore-map-footer-container"
+                      }
+                    },
+                    "leaflet": {
+                      "attribution": {
+                        "container": "#mapstore-map-footer-container"
+                      }
+                    }
+                  },
+                  "toolsOptions": {
+                    "scalebar": {
+                      "container" : "#mapstore-map-footer-container"
+                    }
+                  }
                 }
             }, {
               "name": "DrawerMenu",
@@ -386,7 +397,15 @@
                         "alwaysVisible": true
                     }
                 }
-            }, "TOC", {
+            }, {
+                "name": "TOC",
+                "cfg": {
+                    "activateMapTitle": false,
+                    "activateSettingsTool": false,
+                    "activateRemoveLayer": false
+                }
+
+            }, "MapFooter", {
                 "name": "Settings",
                 "cfg": {
                     "wrap": true
@@ -425,7 +444,16 @@
                 "className": "navbar shadow navbar-home"
             }
         }, "ManagerMenu", "Login", "Language", "Attribution", "ScrollTop", "Notifications"],
-        "maps": ["Header", "Fork", "MapSearch", "HomeDescription", "MapType", "ThemeSwitcher",  "GridContainer", "CreateNewMap", "Maps", "Examples", "Footer", {
+        "maps": ["Header", "Fork", "MapSearch", "HomeDescription", "MapType", "ThemeSwitcher",  "GridContainer", "CreateNewMap",
+          {
+            "name": "Maps",
+            "cfg": {
+              "mapsOptions": {
+                "start": 0,
+                "limit": 12
+              }
+            }
+          }, "Examples", "Footer", {
           "name": "Cookie",
           "cfg": {
             "externalCookieUrl" : "",

@@ -75,8 +75,12 @@ module.exports = {
         NotificationsPlugin: require('../plugins/Notifications'),
         FeatureEditorPlugin: require('../plugins/FeatureEditor'),
         AutoMapUpdatePlugin: require('../plugins/AutoMapUpdate'),
+<<<<<<< HEAD
         ARP_legendaPlugin: require('../plugins/ARP_legenda')
 
+=======
+        MapFooterPlugin: require('../plugins/MapFooter')
+>>>>>>> upstream/master
     },
     requires: {
         ReactSwipe: require('react-swipeable-views').default,
