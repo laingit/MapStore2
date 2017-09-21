@@ -8,7 +8,11 @@ const ARP_LEGENDA_FULL_DESCRIPTION = 'ARP_LEGENDA_FULL_DESCRIPTION';
 
 function bboxToGauss(bbox) {
     const {maxx, maxy, minx, miny} = bbox.bounds;
-    Proj4js.defs("EPSG:3003", "+proj=tmerc +lat_0=0 +lon_0=9 +k=0.9996 +x_0=1500000 +y_0=0 +ellps=intl +units=m +no_defs");
+   // Proj4js.defs("EPSG:3003", "+proj=tmerc +lat_0=0 +lon_0=9 +k=0.9996 +x_0=1500000 +y_0=0 +ellps=intl +units=m +no_defs");
+   // https://epsg.io/3003
+   // Proj4js.defs("EPSG:3003", "+proj=tmerc +lat_0=0 +lon_0=9 +k=0.9996 +x_0=1500000 +y_0=0 +ellps=intl +units=m +no_defs +towgs84=-104.1,-49.1,-9.9,0.971,-2.917,0.714,-11.68");
+   // https://epsg.io/3003-1662
+    Proj4js.defs("EPSG:3003", "+proj=tmerc +lat_0=0 +lon_0=9 +k=0.9996 +x_0=1500000 +y_0=0 +ellps=intl +units=m +no_defs +towgs84=-168.6,-34,38.6,-0.374,-0.679,-1.379,-9.48");
     const epsg3003 = new Proj4js.Proj("EPSG:3003");
 
     const epsgMap = new Proj4js.Proj(bbox.crs);
