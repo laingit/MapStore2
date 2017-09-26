@@ -10,7 +10,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <mapstore2.version>DEV</mapstore2.version>
+    <mapstore2.version>arpas-v001</mapstore2.version>
   </properties>
 
   <dependencies>
@@ -48,8 +48,8 @@
     <!-- servlet -->
     <dependency>
           <groupId>javax.servlet</groupId>
-          <artifactId>servlet-api</artifactId>
-          <version>2.5</version>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
       </dependency>
   </dependencies>
 
