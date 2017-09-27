@@ -128,9 +128,9 @@ module.exports = {
     },
     devServer: {
         proxy: {
-            '/api': {
-                target: "http://192.168.18.42:80"
-            },
+            // '/api': {
+            //     target: "http://192.168.18.42:80"
+            // },
             '/mapstore/rest/geostore': {
                 target: "http://192.168.18.51:8080"
             },

@@ -1,10 +1,12 @@
-var axios = require('../libs/ajax');
+// var axios = require('../libs/ajax');
+var axios = require('axios');
 const Proj4js = require('proj4');
 
 const ARP_LEGENDA_TOGGLE_SHOW = 'ARP_LEGENDA_TOGGLE_SHOW';
 const ARP_LEGENDA_PARTIAL = 'ARP_LEGENDA_PARTIAL';
 const ARP_LEGENDA_FULL_DESCRIPTION = 'ARP_LEGENDA_FULL_DESCRIPTION';
 
+const SERVER_API = "http://192.168.18.42:80";
 
 function bboxToGauss(bbox) {
     const {maxx, maxy, minx, miny} = bbox.bounds;
@@ -57,7 +59,7 @@ function toggleShow() {
 
 function getArpLegendaFullDescription(state, action) {
     return (dispatch) => {
-        const url = `/api/liv_due`;
+        const url = `${SERVER_API}/api/liv_due`;
         console.log("getArpLegendaFullDescription: state action");
         console.log(state);
         console.log(action);
@@ -92,7 +94,7 @@ function getArpLegendaPartial(state, action) {
         const rxMax = Number((xMax).toFixed(0));
         const ryMax = Number((yMax).toFixed(0));
 
-        const url = `/api/liv_due_mappa?xMin=${rxMin}&yMin=${ryMin}&xMax=${rxMax}&yMax=${ryMax}`;
+        const url = `${SERVER_API}/api/liv_due_mappa?xMin=${rxMin}&yMin=${ryMin}&xMax=${rxMax}&yMax=${ryMax}`;
 
         console.log("getArpLegendaPartial: state action");
         console.log(state);
