@@ -10,7 +10,7 @@ const themeEntries = require('./themes.js').themeEntries;
 const extractThemesPlugin = require('./themes.js').extractThemesPlugin;
 module.exports = {
     entry: assign({
-        'webpack-dev-server': 'webpack-dev-server/client?http://192.168.18.51:8081', // WebpackDevServer host and port
+        'webpack-dev-server': 'webpack-dev-server/client?http://192.168.18.131:8081', // WebpackDevServer host and port
         'webpack': 'webpack/hot/only-dev-server', // "only" prevents reload on syntax errors
         "mapstore2": path.join(__dirname, "web", "client", "product", "app"),
         "embedded": path.join(__dirname, "web", "client", "product", "embedded"),
@@ -132,13 +132,13 @@ module.exports = {
             //     target: "http://192.168.18.42:80"
             // },
             '/mapstore/rest/geostore': {
-                target: "http://192.168.18.51:8080"
+                target: "http://192.168.18.131:8080"
             },
             '/mapstore/proxy': {
-                target: "http://192.168.18.51:8080"
+                target: "http://192.168.18.131:8080"
             },
             '/docs': {
-                target: "http://192.168.18.51:8081",
+                target: "http://192.168.18.131:8081",
                 pathRewrite: {'/docs': '/mapstore/docs'}
             }
         }

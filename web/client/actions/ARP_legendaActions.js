@@ -6,7 +6,7 @@ const ARP_LEGENDA_TOGGLE_SHOW = 'ARP_LEGENDA_TOGGLE_SHOW';
 const ARP_LEGENDA_PARTIAL = 'ARP_LEGENDA_PARTIAL';
 const ARP_LEGENDA_FULL_DESCRIPTION = 'ARP_LEGENDA_FULL_DESCRIPTION';
 
-const SERVER_API = "http://192.168.18.42:80";
+const SERVER_API = "http://192.168.18.121:4000";
 
 function bboxToGauss(bbox) {
     const {maxx, maxy, minx, miny} = bbox.bounds;
